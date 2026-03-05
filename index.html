@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Creative & Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bark: #2C1F0E;
+    --soil: #4A3320;
+    --moss: #3D5A2E;
+    --fern: #5C7A45;
+    --sage: #8FA878;
+    --mist: #C4D4B0;
+    --linen: #F2EDE4;
+    --cream: #FAF7F2;
+    --stone: #9C8C78;
+    --parchment: #E8DFD0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--cream);
+    color: var(--bark);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--parchment);
+  }
+  .nav-logo {
+    font-size: 1.1rem; letter-spacing: 0.12em; font-weight: 300;
+    color: var(--moss); text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.08em; color: var(--soil); text-decoration: none;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--moss); }
+  .nav-links a.active { color: var(--moss); border-bottom: 1px solid var(--sage); }
+
+  /* HERO */
+  .hero {
+    padding: 10rem 3rem 5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.18em; color: var(--fern); text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 300; line-height: 1.1;
+    color: var(--bark); margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--moss); }
+  .hero p {
+    font-size: 1.2rem; font-weight: 300; color: var(--soil);
+    max-width: 520px; line-height: 1.7; margin-bottom: 2.5rem;
+  }
+  .hero-divider {
+    width: 60px; height: 1px; background: var(--sage); margin-bottom: 2.5rem;
+  }
+
+  /* FILTER TABS */
+  .filters {
+    display: flex; gap: 0.5rem; align-items: center;
+    padding: 0 3rem; max-width: 1100px; margin: 0 auto 3rem;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.5rem 1.1rem; border-radius: 2px;
+    border: 1px solid var(--parchment);
+    background: transparent; color: var(--stone);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--sage); color: var(--moss); }
+  .filter-btn.active {
+    background: var(--moss); color: var(--cream);
+    border-color: var(--moss);
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    padding: 0 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--linen);
+    border: 1px solid var(--parchment);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+    animation: fadeUp 0.5s ease both;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(44,31,14,0.1);
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-thumb {
+    width: 100%; aspect-ratio: 16/9;
+    object-fit: cover; display: block;
+    background: var(--parchment);
+  }
+  .card-thumb-placeholder {
+    width: 100%; aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+  }
+  .card-body { padding: 1.4rem 1.6rem 1.6rem; }
+  .card-tag {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 0.6rem;
+  }
+  .card-title {
+    font-size: 1.35rem; font-weight: 400; line-height: 1.25;
+    color: var(--bark); margin-bottom: 0.6rem;
+  }
+  .card-desc {
+    font-size: 0.95rem; font-weight: 300; line-height: 1.6;
+    color: var(--soil); margin-bottom: 1rem;
+  }
+  .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--parchment); padding-top: 0.9rem;
+  }
+  .card-date {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem;
+    color: var(--stone); letter-spacing: 0.06em;
+  }
+  .card-arrow {
+    font-size: 0.9rem; color: var(--sage); transition: transform 0.2s;
+  }
+  .card:hover .card-arrow { transform: translateX(4px); }
+
+  /* UPLOAD BUTTON */
+  .upload-area {
+    padding: 0 3rem; max-width: 1100px; margin: 3rem auto 0;
+    display: flex; justify-content: flex-end;
+  }
+  .btn-upload {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.75rem 1.8rem;
+    background: var(--moss); color: var(--cream);
+    border: none; border-radius: 2px; cursor: pointer;
+    transition: background 0.2s;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .btn-upload:hover { background: var(--soil); }
+
+  /* MODAL OVERLAY */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(44,31,14,0.55); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--cream); border-radius: 4px;
+    padding: 2.5rem; width: 90%; max-width: 560px;
+    position: relative; animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal h2 {
+    font-size: 1.7rem; font-weight: 300; color: var(--bark);
+    margin-bottom: 0.4rem;
+  }
+  .modal .modal-sub {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    color: var(--stone); letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1.8rem;
+  }
+  .modal-close {
+    position: absolute; top: 1.2rem; right: 1.4rem;
+    background: none; border: none; font-size: 1.3rem;
+    color: var(--stone); cursor: pointer; line-height: 1;
+  }
+  .modal-close:hover { color: var(--bark); }
+
+  .form-row { margin-bottom: 1.2rem; }
+  .form-row label {
+    display: block; font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 0.4rem;
+  }
+  .form-row input, .form-row textarea, .form-row select {
+    width: 100%; padding: 0.65rem 0.9rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+    color: var(--bark); background: var(--linen);
+    border: 1px solid var(--parchment); border-radius: 2px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+    border-color: var(--sage);
+  }
+  .form-row textarea { resize: vertical; min-height: 90px; }
+
+  .drop-zone {
+    border: 1.5px dashed var(--sage); border-radius: 4px;
+    padding: 1.8rem; text-align: center; cursor: pointer;
+    transition: background 0.2s; background: var(--linen);
+  }
+  .drop-zone:hover { background: var(--mist); }
+  .drop-zone .dz-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .drop-zone p {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    color: var(--stone); letter-spacing: 0.08em;
+  }
+  .drop-zone p span { color: var(--fern); }
+  #file-input { display: none; }
+
+  .file-preview {
+    margin-top: 0.7rem; font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; color: var(--fern); display: none;
+  }
+
+  .type-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .type-pill {
+    padding: 0.4rem 0.9rem; border-radius: 2px;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid var(--parchment); background: var(--linen);
+    color: var(--stone); cursor: pointer; transition: all 0.15s;
+  }
+  .type-pill.selected { background: var(--fern); color: var(--cream); border-color: var(--fern); }
+
+  .btn-submit {
+    width: 100%; margin-top: 1.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.9rem; background: var(--moss); color: var(--cream);
+    border: none; border-radius: 2px; cursor: pointer; transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--soil); }
+
+  /* POST VIEW MODAL */
+  .post-modal {
+    background: var(--cream); border-radius: 4px;
+    width: 90%; max-width: 720px; max-height: 85vh;
+    overflow-y: auto; padding: 2.8rem 3rem;
+    position: relative; animation: modalIn 0.3s ease;
+  }
+  .post-modal .pm-tag {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--fern);
+    margin-bottom: 0.7rem;
+  }
+  .post-modal h2 {
+    font-size: 2.2rem; font-weight: 300; line-height: 1.15;
+    color: var(--bark); margin-bottom: 0.8rem;
+  }
+  .post-modal .pm-meta {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem;
+    color: var(--stone); letter-spacing: 0.06em; margin-bottom: 1.6rem;
+  }
+  .post-modal .pm-image {
+    width: 100%; border-radius: 3px; margin-bottom: 1.6rem;
+    max-height: 340px; object-fit: cover;
+  }
+  .post-modal .pm-image-placeholder {
+    width: 100%; height: 240px; border-radius: 3px; margin-bottom: 1.6rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; background: var(--parchment);
+  }
+  .post-modal .pm-body {
+    font-size: 1.1rem; font-weight: 300; line-height: 1.8; color: var(--soil);
+    border-top: 1px solid var(--parchment); padding-top: 1.4rem;
+    white-space: pre-line;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 6rem; padding: 2.5rem 3rem;
+    border-top: 1px solid var(--parchment);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    color: var(--stone); letter-spacing: 0.08em;
+  }
+  .footer-dot { width: 5px; height: 5px; background: var(--sage); border-radius: 50%; }
+
+  /* EMPTY STATE */
+  .empty {
+    grid-column: 1/-1; text-align: center; padding: 4rem 2rem;
+    color: var(--stone);
+  }
+  .empty .e-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .empty p { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--moss); color: var(--cream);
+    font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em;
+    padding: 0.75rem 1.6rem; border-radius: 2px;
+    opacity: 0; transition: all 0.3s; z-index: 300;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 8rem 1.5rem 3rem; }
+    .filters, .grid, .upload-area { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .post-modal { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Field Notes</div>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="setNav(this,'all')">All</a>
+    <a href="#" onclick="setNav(this,'dev')">Code</a>
+    <a href="#" onclick="setNav(this,'art')">Art</a>
+    <a href="#" onclick="setNav(this,'essay')">Writing</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">Portfolio & Blog</p>
+  <h1>Projects, art &amp;<br><em>explorations</em></h1>
+  <div class="hero-divider"></div>
+  <p>A quiet corner of the internet where I collect my creative and technical work — code experiments, visual art, and written thoughts.</p>
+</section>
+
+<div class="upload-area">
+  <button class="btn-upload" onclick="openUpload()">
+    <span>+</span> Add New Post
+  </button>
+</div>
+
+<div class="filters" style="margin-top:1.5rem;">
+  <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
+  <button class="filter-btn" onclick="filterPosts('dev', this)">Code</button>
+  <button class="filter-btn" onclick="filterPosts('art', this)">Art</button>
+  <button class="filter-btn" onclick="filterPosts('essay', this)">Writing</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  <p>Field Notes — Creative Portfolio</p>
+  <div class="footer-dot"></div>
+  <p id="post-count">0 posts</p>
+</footer>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="upload-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUpload()">✕</button>
+    <h2>New Post</h2>
+    <p class="modal-sub">Share your work</p>
+
+    <div class="form-row">
+      <label>Type</label>
+      <div class="type-pills">
+        <div class="type-pill selected" data-type="dev" onclick="selectType(this)">Code</div>
+        <div class="type-pill" data-type="art" onclick="selectType(this)">Art</div>
+        <div class="type-pill" data-type="essay" onclick="selectType(this)">Writing</div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Title</label>
+      <input type="text" id="f-title" placeholder="Give your post a name…">
+    </div>
+
+    <div class="form-row">
+      <label>Description</label>
+      <textarea id="f-desc" placeholder="What's this about? Share as much or as little as you'd like…"></textarea>
+    </div>
+
+    <div class="form-row" id="image-row">
+      <label>Image / File</label>
+      <div class="drop-zone" onclick="document.getElementById('file-input').click()"
+           ondragover="event.preventDefault()" ondrop="handleDrop(event)">
+        <div class="dz-icon">🌿</div>
+        <p><span>Click to upload</span> or drag & drop</p>
+        <p style="margin-top:0.3rem">PNG, JPG, GIF, PDF</p>
+      </div>
+      <input type="file" id="file-input" accept="image/*,.pdf" onchange="handleFile(event)">
+      <div class="file-preview" id="file-preview"></div>
+    </div>
+
+    <button class="btn-submit" onclick="submitPost()">Publish Post</button>
+  </div>
+</div>
+
+<!-- Post View Modal -->
+<div class="modal-overlay" id="post-modal">
+  <div class="post-modal">
+    <button class="modal-close" onclick="closePost()" style="top:1.4rem;right:1.6rem">✕</button>
+    <p class="pm-tag" id="pm-tag"></p>
+    <h2 id="pm-title"></h2>
+    <p class="pm-meta" id="pm-meta"></p>
+    <div id="pm-image"></div>
+    <p class="pm-body" id="pm-body"></p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const TYPE_LABELS = { dev: 'Code', art: 'Art', essay: 'Writing' };
+  const TYPE_EMOJIS = { dev: '🌱', art: '🍂', essay: '🪵' };
+  const TYPE_BG = { dev: '#C4D4B0', art: '#E8DFD0', essay: '#D4C9B8' };
+
+  let posts = [
+    { id: 1, type: 'dev', title: 'Generative Terrain Algorithm', desc: 'An experiment in procedurally generated landscapes using simplex noise and WebGL. Each refresh produces a unique topography — mountains, valleys, and river paths.', date: '2025-02-18', img: null },
+    { id: 2, type: 'art', title: 'Pressed Botanicals Series', desc: 'A collection of digital illustrations inspired by Victorian botanical presses. Each piece layers texture and organic form to create something between scientific record and personal artifact.', date: '2025-01-30', img: null },
+    { id: 3, type: 'essay', title: 'On Making Things Slowly', desc: 'Thoughts on craft, patience, and why the best work often comes from resisting the urge to ship fast. A meditation on slowness as a creative practice.', date: '2025-01-12', img: null },
+  ];
+  let currentFilter = 'all';
+  let selectedType = 'dev';
+  let uploadedFile = null;
+  let uploadedDataURL = null;
+
+  function render() {
+    const grid = document.getElementById('grid');
+    const filtered = currentFilter === 'all' ? posts : posts.filter(p => p.type === currentFilter);
+    document.getElementById('post-count').textContent = posts.length + ' post' + (posts.length !== 1 ? 's' : '');
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="empty"><div class="e-icon">🌾</div><p>No posts yet — add your first one above.</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map((p, i) => `
+      <div class="card" style="animation-delay:${i * 0.07}s" onclick="openPost(${p.id})">
+        ${p.img
+          ? `<img class="card-thumb" src="${p.img}" alt="${p.title}">`
+          : `<div class="card-thumb-placeholder" style="background:${TYPE_BG[p.type]}">${TYPE_EMOJIS[p.type]}</div>`}
+        <div class="card-body">
+          <div class="card-tag">${TYPE_LABELS[p.type]}</div>
+          <div class="card-title">${p.title}</div>
+          <div class="card-desc">${p.desc.length > 100 ? p.desc.slice(0,100) + '…' : p.desc}</div>
+          <div class="card-footer">
+            <span class="card-date">${formatDate(p.date)}</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function formatDate(d) {
+    return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function filterPosts(type, btn) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  }
+
+  function setNav(el, type) {
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent.toLowerCase() === (type === 'all' ? 'all' : TYPE_LABELS[type].toLowerCase()));
+    });
+    render();
+  }
+
+  function selectType(el) {
+    document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedType = el.dataset.type;
+  }
+
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    uploadedFile = file;
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        uploadedDataURL = ev.target.result;
+        document.getElementById('file-preview').style.display = 'block';
+        document.getElementById('file-preview').textContent = '✓ ' + file.name;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      uploadedDataURL = null;
+      document.getElementById('file-preview').style.display = 'block';
+      document.getElementById('file-preview').textContent = '✓ ' + file.name;
+    }
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    document.getElementById('file-input').files = dt.files;
+    handleFile({ target: { files: [file] } });
+  }
+
+  function openUpload() {
+    document.getElementById('upload-modal').classList.add('open');
+  }
+  function closeUpload() {
+    document.getElementById('upload-modal').classList.remove('open');
+  }
+
+  function submitPost() {
+    const title = document.getElementById('f-title').value.trim();
+    const desc = document.getElementById('f-desc').value.trim();
+    if (!title) { showToast('Please add a title'); return; }
+    if (!desc) { showToast('Please add a description'); return; }
+    const newPost = {
+      id: Date.now(),
+      type: selectedType,
+      title, desc,
+      date: new Date().toISOString().split('T')[0],
+      img: uploadedDataURL || null
+    };
+    posts.unshift(newPost);
+    render();
+    closeUpload();
+    showToast('Post published ✓');
+    document.getElementById('f-title').value = '';
+    document.getElementById('f-desc').value = '';
+    document.getElementById('file-preview').style.display = 'none';
+    uploadedFile = null; uploadedDataURL = null;
+    document.getElementById('file-input').value = '';
+  }
+
+  function openPost(id) {
+    const p = posts.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('pm-tag').textContent = TYPE_LABELS[p.type];
+    document.getElementById('pm-title').textContent = p.title;
+    document.getElementById('pm-meta').textContent = formatDate(p.date);
+    document.getElementById('pm-body').textContent = p.desc;
+    const imgEl = document.getElementById('pm-image');
+    if (p.img) {
+      imgEl.innerHTML = `<img class="pm-image" src="${p.img}" alt="${p.title}">`;
+    } else {
+      imgEl.innerHTML = `<div class="pm-image-placeholder" style="background:${TYPE_BG[p.type]}">${TYPE_EMOJIS[p.type]}</div>`;
+    }
+    document.getElementById('post-modal').classList.add('open');
+  }
+  function closePost() {
+    document.getElementById('post-modal').classList.remove('open');
+  }
+
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  render();
+</script>
+</body>
+</html>
